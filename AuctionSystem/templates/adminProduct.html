@@ -1,0 +1,78 @@
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+<!------ Include the above in your HEAD tag ---------->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Product Detail</title>
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles/mainSquare.css">
+    <link rel="stylesheet" href="/static/styles/product.css">
+    <!-- <script src="/static/js/product.js" charset="utf-8"></script> -->
+  </head>
+
+  <body>
+    {% if type == "verify" %}
+    <div class="back">
+        <a href="/viewVerify">Back to view verify items</a>
+     </div>
+     {% else %}
+     <div class="back">
+         <a href="/viewEndBidding">Back to view end bidding items</a>
+    </div>
+    {% endif %}
+
+
+    {% if error %}
+    <div class="alert alert-warning" style="width:100vw">
+        {{ error }}
+      </div>
+    {% endif %}
+
+    <!-- posts data: picture, name, productID, description, status, (if in auction:) price-->
+	<div class="container">
+		<div class="card">
+			<div class="container-fliud">
+				<div class="wrapper row">
+          {% for each in posts %}
+					<div class="preview col-md-6">
+						<div class="preview-pic tab-content">
+              <div class="tab-pane active" id="pic-1">
+                <img src="../static/images/{{each[0]}}" class="img-responsive" width="260" height="auto">
+              </div>
+            </div>
+					</div>
+					<div class="details col-md-6">
+            <h3 class="product-title">{{each[1]}}</h3>
+            <p class="product-description">{{each[2]}}</p>
+            <h4 class="price">Current price (AED): <span>{{each[3]}}</span></h4>
+            <br>
+            <div class="action" style="margin-left:auto; margin-right:0">
+              {% if type == "verify" %}
+                <form method="post" action="/verify">
+                  <input style="display:none" value="{{each[0]}}" name="productID">
+                  <button class="add-to-cart btn btn-default" name="new_status" type="submit" value="true">Verify</button>
+                  <button class="add-to-cart btn btn-default" name="new_status" type="submit" value="false">Reject</button>
+                </form>
+              {% else %}
+                <form method="post" action="/endBidding">
+                  <button class="add-to-cart btn btn-default"value="{{each[0]}}" name="productID" type="submit">End bidding</button>
+                </form>
+              {% endif %}
+            </div>
+					</div>
+          {% endfor %}
+				</div>
+			</div>
+		</div>
+	</div>
+
+  </body>
+</html>

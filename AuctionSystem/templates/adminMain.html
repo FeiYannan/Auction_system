@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zj-CN">
+
+<head>
+  <title>Admin</title>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<link rel="stylesheet" href="/static/styles/mainSquare.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <style>
+      .nav-link:hover {background-color: #a58190}
+  </style>
+</head>
+
+<body>
+
+  <!-- 以下是个左侧边栏 -->
+  <div class=" d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style="width: 200px; height: 100vh; position: absolute">
+    <a href="#" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+      <span class="fs-4">Bid Now</span>
+    </a>
+    <hr>
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li style="margin-top:10vh; font-size:20px">
+        <a href="/viewVerify" class="nav-link text-white">
+          Verify item
+        </a>
+      </li>
+      <li style="margin-top:10vh; font-size:20px">
+        <a href="/viewEndBidding" class="nav-link text-white">
+          End bidding
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Content -->
+    <div class="container row justify-content-evenly" style="top:10vh;left:200px; position:absolute">
+      {% if error %}
+      <div class="alert alert-warning" style="width:100vw">
+            {{ error }}
+        </div>
+        {% endif %}
+
+
+      <!-- each data: picture, name, productID, status, (if in auction:) price -->
+      {% for each in posts %}
+        <div class="col-md-4 productbox">
+          <img src="static/images/{{each[0]}}" class="img-responsive" width="260" height="auto">
+            <div class="producttitle">{{each[1]}}</div>
+            <div class="productprice">
+              <div class="float-right">
+                {% if type == "verify" %}
+                  <a href="/adminProductV/{{each[0]}}" class="btn btn-danger btn-sm" role="button">CHECK</a>
+                {% else %}
+                  <a href="/adminProductB/{{each[0]}}" class="btn btn-danger btn-sm" role="button">CHECK</a>
+                {% endif %}
+              </div>
+              <div class="pricetext">{{each[2]}}</div>
+            </div>
+        </div>
+        {% endfor %}
+
+  </div>
+  <!-- Content -->
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="/docs/5.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+  <script src="sidebars.js"></script>
+</body>
+
+</html>
